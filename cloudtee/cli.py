@@ -12,7 +12,8 @@ def get_option_parser():
                         help='Topic to subscribe to on CloudTee server')
     parser.add_argument('--host', metavar='<HOST>', default=DEFAULT_HOST,
                         help='CloudTee service hostname')
-    parser.add_argument('--port', metavar='<PORT>', default=DEFAULT_PORT,
+    parser.add_argument('--port', metavar='<PORT>', type=int,
+                        default=DEFAULT_PORT,
                         help='CloudTee service port')
     parser.add_argument('--version', '-v', action='version', version=VERSION,
                         help='print client version and exit')
