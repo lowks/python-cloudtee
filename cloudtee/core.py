@@ -3,12 +3,12 @@ import socket
 
 
 class _Stream(object):
-    def __init__(self, host, port, topic):
+    def __init__(self, host, port, topic, **extra_options):
         self.conn_info = (host, port)
         self.topic = topic
         self.socket = self._open_socket()
 
-        self._init_socket(self.socket, topic)
+        self._init_socket(self.socket, topic, **extra_options)
 
     def _init_socket(self, socket):
         raise NotImplementedError()
@@ -32,9 +32,16 @@ class WritableStream(_Stream):
 
 
 class ReadableStream(_Stream):
-    def _init_socket(self, sock, topic):
-        init_message = 'GET /%s\r\n\r\n' % topic
-        sock.send(init_message)
+    def _init_socket(self, sock, topic, **kwargs):
+        show_timestamp = 'yes' if kwargs.get('show_timestamp', True) else 'no'
+        show_client = 'yes' if kwargs.get('show_client', True) else 'no'
+        http_headers = (
+            'GET /%s' % topic,
+            'X-CloudTee-Show-Timestamp: %s' % show_timestamp,
+            'X-CloudTee-Show-Client: %s' % show_client,
+            '\r\n',
+        )
+        sock.send('\r\n'.join(http_headers))
 
     def read(self):
         while True:

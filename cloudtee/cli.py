@@ -1,7 +1,7 @@
 
 import argparse
 
-VERSION = '0.0.5'
+VERSION = '0.0.6'
 DEFAULT_HOST = 'service.cloudtee.me'
 DEFAULT_PORT = '8080'
 

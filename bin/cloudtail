@@ -6,10 +6,23 @@ import cloudtee
 import cloudtee.cli
 
 
+def extend_option_parser(parser):
+    parser.add_argument('--no-timestamp', action='store_true',
+                        help='Prevent CloudTee server from returning'
+                             'timestamp with each log line')
+    parser.add_argument('--no-client-ip', action='store_true',
+                        help='Prevent CloudTee server from returning'
+                             'address of original client with each log line')
+
 if __name__ == "__main__":
     parser = cloudtee.cli.get_option_parser()    
+    extend_option_parser(parser)
     args = parser.parse_args()
-    stream = cloudtee.ReadableStream(args.host, args.port, args.topic)
+    show_timestamp = not args.no_timestamp
+    show_client = not args.no_client_ip
+    stream = cloudtee.ReadableStream(args.host, args.port, args.topic,
+                                     show_timestamp=show_timestamp,
+                                     show_client=show_client)
     try:
         for chunk in stream.read():
             sys.stdout.write(chunk)
