@@ -10,6 +10,7 @@ distutils.core.setup(
     url='http://cloudtee.me',
     author='Brian Waldon',
     author_email='bcwaldon@gmail.com',
+    description='Python cloudtee client',
     packages=['cloudtee'],
     scripts=['bin/cloudtee', 'bin/cloudtail'],
 )
